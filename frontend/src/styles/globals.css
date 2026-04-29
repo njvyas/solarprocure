@@ -1,0 +1,291 @@
+/* eProcure Global Styles */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --color-bg: #0f1117;
+  --color-bg-card: #161b27;
+  --color-bg-elevated: #1e2535;
+  --color-bg-input: #1a2033;
+  --color-border: #2a3347;
+  --color-border-light: #364055;
+
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: rgba(59, 130, 246, 0.12);
+
+  --color-success: #22c55e;
+  --color-success-light: rgba(34, 197, 94, 0.12);
+  --color-warning: #f59e0b;
+  --color-warning-light: rgba(245, 158, 11, 0.12);
+  --color-danger: #ef4444;
+  --color-danger-light: rgba(239, 68, 68, 0.12);
+  --color-info: #06b6d4;
+  --color-info-light: rgba(6, 182, 212, 0.12);
+
+  /* Solar brand accent */
+  --color-solar: #f59e0b;
+  --color-solar-light: rgba(245, 158, 11, 0.12);
+
+  --text-primary: #e8ecf3;
+  --text-secondary: #8b95a8;
+  --text-muted: #56637a;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Focus */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Utility classes */
+.card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.badge-success { background: var(--color-success-light); color: var(--color-success); }
+.badge-warning { background: var(--color-warning-light); color: var(--color-warning); }
+.badge-danger  { background: var(--color-danger-light);  color: var(--color-danger);  }
+.badge-info    { background: var(--color-info-light);    color: var(--color-info);    }
+.badge-solar   { background: var(--color-solar-light);   color: var(--color-solar);   }
+.badge-muted   { background: var(--color-border);        color: var(--text-secondary); }
+
+/* Button base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+.btn-primary:hover:not(:disabled) { background: var(--color-primary-hover); }
+
+.btn-secondary {
+  background: var(--color-bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--color-border);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--color-border); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+.btn-ghost:hover:not(:disabled) { background: var(--color-bg-elevated); color: var(--text-primary); }
+
+.btn-danger {
+  background: var(--color-danger-light);
+  color: var(--color-danger);
+  border: 1px solid rgba(239,68,68,0.3);
+}
+.btn-danger:hover:not(:disabled) { background: rgba(239,68,68,0.2); }
+
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-lg { padding: 11px 22px; font-size: 15px; }
+
+/* Form elements */
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.form-input {
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  padding: 9px 12px;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+.form-input:focus { outline: none; border-color: var(--color-primary); }
+.form-input::placeholder { color: var(--text-muted); }
+.form-input.error { border-color: var(--color-danger); }
+.form-error { font-size: 12px; color: var(--color-danger); }
+
+/* Table */
+.table-wrapper { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.1s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+tbody td {
+  padding: 12px 16px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.fade-in { animation: fadeIn 0.2s ease forwards; }
+.spinner { animation: spin 0.8s linear infinite; }
+
+/* Divider */
+.divider { height: 1px; background: var(--color-border); }
+
+/* Metric card */
+.metric-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.metric-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+.metric-value { font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+.metric-sub   { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ── Alias layer ─────────────────────────────────────────────────────────────
+   AppLayout and some pages were written with different var naming conventions.
+   These aliases bridge all three systems to the single source of truth above.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* --color-background-* (used by AppLayout.jsx) */
+  --color-background-primary:   var(--color-bg-card);
+  --color-background-secondary: var(--color-bg-elevated);
+  --color-background-tertiary:  var(--color-bg);
+  --color-background-info:      var(--color-info-light);
+  --color-background-success:   var(--color-success-light);
+  --color-background-warning:   var(--color-warning-light);
+  --color-background-danger:    var(--color-danger-light);
+
+  /* --color-border-* (extended border vars) */
+  --color-border-secondary:  var(--color-border-light);
+  --color-border-tertiary:   var(--color-border);
+  --color-border-info:       rgba(6, 182, 212, 0.3);
+  --color-border-success:    rgba(34, 197, 94, 0.3);
+  --color-border-danger:     rgba(239, 68, 68, 0.3);
+
+  /* --color-text-* (used by AppLayout.jsx) */
+  --color-text-primary:   var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary:  var(--text-muted);
+  --color-text-info:      var(--color-info);
+  --color-text-success:   var(--color-success);
+  --color-text-warning:   var(--color-warning);
+  --color-text-danger:    var(--color-danger);
+
+  /* --border-radius-* (used by AppLayout.jsx) */
+  --border-radius-md: var(--radius-md);
+  --border-radius-lg: var(--radius-lg);
+
+  /* --c-* short-form (used by some page components) */
+  --c-bg:           var(--color-bg);
+  --c-surface:      var(--color-bg-card);
+  --c-border:       var(--color-border);
+  --c-border-strong:var(--color-border-light);
+  --c-primary:      var(--color-primary);
+  --c-primary-dark: var(--color-primary-hover);
+  --c-primary-light:var(--color-primary-light);
+  --c-accent:       var(--color-solar);
+  --c-success-light:var(--color-success-light);
+  --c-warning:      var(--color-warning);
+  --c-warning-light:var(--color-warning-light);
+  --c-danger:       var(--color-danger);
+  --c-danger-light: var(--color-danger-light);
+  --c-info:         var(--color-info);
+  --c-info-light:   var(--color-info-light);
+  --c-text:         var(--text-primary);
+  --c-text-muted:   var(--text-muted);
+  --c-text-faint:   var(--text-muted);
+
+  /* --bg-base (used by some report pages) */
+  --bg-base: var(--color-bg);
+
+  /* Misc layout */
+  --sidebar-w:  230px;
+  --transition: all 0.15s ease;
+
+  /* brand-500 alias */
+  --brand-500: var(--color-success);
+
+  /* gray alias */
+  --gray-300: #d1d5db;
+}

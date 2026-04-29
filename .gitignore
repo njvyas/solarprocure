@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+.vite/
+
+# Environment — NEVER commit secrets
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime
+uploads/
+backups/
+*.gz
+*.tar.gz
+*.sql.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.docker/
+
+# Test artifacts
+coverage/
+.nyc_output/

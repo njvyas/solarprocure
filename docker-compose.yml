@@ -1,0 +1,108 @@
+version: '3.9'
+
+# ── DEVELOPMENT docker-compose ────────────────────────────────────────────────
+# Do NOT use this file in production. Run: sudo bash deploy.sh --domain yourdomain.com
+#
+# Security notes:
+#   * postgres & redis ports are NOT exposed to the host
+#   * backend port 4000 is exposed for local dev API access
+#   * frontend port 3000 is exposed for Vite dev server
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: eprocure_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       eprocure
+      POSTGRES_USER:     eprocure_user
+      POSTGRES_PASSWORD: eprocure_pass_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./scripts/seed.demo.sql:/docker-entrypoint-initdb.d/02_seed_demo.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eprocure_user -d eprocure"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [internal]
+
+  redis:
+    image: redis:7-alpine
+    container_name: eprocure_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [internal]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: eprocure_backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV:              development
+      PORT:                  4000
+      DATABASE_URL:          postgresql://eprocure_user:eprocure_pass_dev@postgres:5432/eprocure
+      REDIS_URL:             redis://redis:6379
+      JWT_SECRET:            ${JWT_SECRET:-dev-jwt-secret-change-in-production-min-32-chars!!}
+      JWT_REFRESH_SECRET:    ${JWT_REFRESH_SECRET:-dev-refresh-secret-change-in-production-min-32!!}
+      AI_ENCRYPTION_KEY:     ${AI_ENCRYPTION_KEY:-dev-ai-enc-key-change-in-production-min-32chars!!}
+      JWT_EXPIRES_IN:        15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      UPLOAD_DIR:            /app/uploads
+      MAX_FILE_SIZE:         10485760
+      BACKUP_DIR:            /app/backups
+      BACKUP_RETENTION_DAYS: 30
+      BCRYPT_ROUNDS:         12
+      CORS_ORIGINS:          http://localhost:3000
+      APP_URL:               http://localhost:3000
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - uploads_data:/app/uploads
+      - backups_data:/app/backups
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks: [internal]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: eprocure_frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:4000/api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks: [internal]
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  uploads_data:
+  backups_data:
